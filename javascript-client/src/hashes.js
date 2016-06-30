@@ -22,13 +22,13 @@ export function hash (password) {
   return hashedPass
 }
 
-export function compare (password, userList) {
-  let exists = new Promise((resolve, reject) => {
-    crypto.compare(password, userList, function (err, res) {
+export function compare (password, user) {
+  return new Promise((resolve, reject) => {
+    crypto.compare(password, user, function (err, res) {
       if (err) {
         reject(err)
       } else {
-        resolve(exists)
+        resolve(res)
       }
     })
   })

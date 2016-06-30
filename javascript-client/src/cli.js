@@ -47,7 +47,7 @@ login
     return (Promise.resolve(userList[args.username])
       .then((hashedPassword) => {
         if (hashedPassword) {
-          compare(args.password, userList)
+          compare(args.password, userList[args.username])
             .then((correctPassword) => {
               if (correctPassword === true) {
                 this.log('Logged in, pardner')
@@ -90,7 +90,7 @@ connect
   })
   .action(function (command, callback) {
     // WRITES commands to the server
-    if (!logged) {
+    if (logged) {
       server.write(`${command}\n`)
       callback()
     } else {

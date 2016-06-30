@@ -10,8 +10,8 @@ import com.cooksys.ftd.assessment.model.db.User;
 
 public class UserDao extends AbstractDao {
 	
-	private AbstractDao abs = new AbstractDao();
-	private Connection conn = abs.getConn();
+	AbstractDao abs = new AbstractDao();
+	Connection conn = abs.getConn();
 	
 	public User createUser(User user) throws ClassNotFoundException {
 
