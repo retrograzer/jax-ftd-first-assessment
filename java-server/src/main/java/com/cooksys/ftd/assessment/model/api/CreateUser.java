@@ -8,7 +8,7 @@ public class CreateUser {
 	private String username;
 	private String password;
 
-	public CreateUser(String username, String password) {
+	public CreateUser(String username, String password) throws ClassNotFoundException {
 		super();
 		this.username = username;
 		this.password = password;

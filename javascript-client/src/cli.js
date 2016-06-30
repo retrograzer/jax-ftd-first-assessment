@@ -1,10 +1,11 @@
 import vorpal from 'vorpal'
 import net from 'net'
 
-import { hash } from './hashes'
+import { hash, compare } from './hashes'
 
 const cli = vorpal()
 const userList = {}
+let logged = false
 
 let server
 
@@ -13,15 +14,17 @@ cli.delimiter('Base: ')
 const register = cli.command('register <username> <password>')
 const login = cli.command('login <username> <password>')
 const connect = cli.mode('connect <port> [host]')
-// const allfiles = cli.command('allfiles')
-// const upload = cli.command('upload <path>')
-// const download = cli.command('download <id> [localpath]')
+
+// These are only used once logged in and connected
+const allfiles = cli.command('allfiles')
+const upload = cli.command('upload <path>')
+const download = cli.command('download <id> [localpath]')
 
 register
   .description('Registers a new user with <username> and <password>')
   .alias('r')
   .action(function (args, cb) {
-    this.log('Howdy partner')
+    this.log('Howdy partner!')
     // if the username matches a user in the list then pass a bool?
     return (Promise.resolve(userList[args.username] !== undefined)
       .then((exists) => {
@@ -39,27 +42,29 @@ register
 
 login
   .description('Login for existing username with <username> and <password>')
+  .alias('l')
   .action(function (args, cb) {
-
+    return (Promise.resolve(userList[args.username])
+      .then((hashedPassword) => {
+        if (hashedPassword) {
+          compare(args.password, userList)
+            .then((correctPassword) => {
+              if (correctPassword === true) {
+                this.log('Logged in, pardner')
+                logged = true
+              } else {
+                this.log('Password incorrect, cowboy.')
+              }
+            })
+        } else {
+          this.log('Username does not exist, bronco.')
+        }
+      })
+      .catch((err) => {
+        this.log(`Error occured in the login. ${err}`)
+      })
+    )
   })
-
-// allfiles
-//   .description('Loads a list of all files stored on server')
-//   .action(function (args, cb) {
-//
-//   })
-//
-// upload
-//   .description('Uploads a file with the path <path> to the server')
-//   .action(function (args, cb) {
-//
-//   })
-//
-// download
-//   .description('downloads a file from the server with fileid <id> to an optional [localpath]')
-//   .action(function (args, cb) {
-//
-//   })
 
 connect
   .delimiter('Server -> ')
@@ -85,8 +90,22 @@ connect
   })
   .action(function (command, callback) {
     // WRITES commands to the server
-    server.write(`${command}\n`)
-    callback()
+    if (!logged) {
+      server.write(`${command}\n`)
+      callback()
+    } else {
+      this.log('You are not logged in! Please disconnect and login.')
+      callback()
+    }
   })
+
+allfiles
+  .description('(online only) Loads a list of all files stored on server')
+
+upload
+  .description('(online only) Uploads a file with the path <path> to the server')
+
+download
+  .description('(online only) Downloads a file from the server with fileid <id> to an optional [localpath]')
 
 export default cli

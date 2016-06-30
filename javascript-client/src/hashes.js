@@ -1,7 +1,7 @@
 import crypto from 'bcryptjs'
-import vorpal from 'vorpal'
+// import vorpal from 'vorpal'
 
-const cli = vorpal()
+// const cli = vorpal()
 
 export function hash (password) {
   let hashedPass = new Promise((resolve, reject) => {
@@ -22,8 +22,16 @@ export function hash (password) {
   return hashedPass
 }
 
-export function compare (password) {
-
+export function compare (password, userList) {
+  let exists = new Promise((resolve, reject) => {
+    crypto.compare(password, userList, function (err, res) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(exists)
+      }
+    })
+  })
 }
 
 export default {

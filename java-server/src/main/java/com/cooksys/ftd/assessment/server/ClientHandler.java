@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cooksys.ftd.assesment.dao.FilesDao;
 import com.cooksys.ftd.assesment.dao.UserDao;
+import com.cooksys.ftd.assessment.model.api.CreateUser;
 
 public class ClientHandler implements Runnable {
 	
@@ -27,15 +28,16 @@ public class ClientHandler implements Runnable {
 				if (message.equals("files")) {
 					writer.print("Suck it, charles.");
 				} else if (message.equals("upload")) {
-					writer.print("Please specify a file path: ");
-					writer.flush();
-					message = reader.readLine();
-					writer.print("Uploading file...");
+//					writer.print("Please specify a file path: ");
+//					writer.flush();
+//					message = reader.readLine();
+//					writer.print("Uploading file...");
+					CreateUser usa = new CreateUser("hello", "killa");
 				}
 				writer.flush();
 				log.info("Wrote message ({}) in ClientHandler", message);
 			}
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			log.error("ERROR! Something went wrong trying to run the ClientHandler. FIX ME! Stack trace below. " + e);
 		}
 	}
