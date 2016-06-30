@@ -68,3 +68,6 @@ The Persistence Layer - MySQL Database Server
 General Recommendations
   * Start with DB schema creation
   * Accross all layers, keep naming consistent
+
+base64 encoded string
+stored as a blob
