@@ -25,6 +25,7 @@ public class ClientHandler implements Runnable {
 	UploadFile upload;
 	DownloadFile download;
 
+	@SuppressWarnings("resource")
 	@Override
 	public void run() {
 		try {

@@ -20,12 +20,13 @@ public class DownloadFile {
 	public String downloadFiles (String filePath) {
 			log.info("in the downloadFile thingy");
 		try {
+			PreparedStatement stmt;
 			
 			String sql = "select * "
-					+ "from files "
-					+ "where file_path = " + filePath + "";
+					+ "from files ";
 			
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			//WHY THE FLIP WONT THIS DARN STATEMENT PREPARE ITSELF?!?!?!?!?!?!?!?!?!?! IS IT BECAUSE THERE'S NOTHING IN IT?
+			stmt = conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				String path = rs.getString("file_path");

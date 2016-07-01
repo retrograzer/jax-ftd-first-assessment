@@ -1,4 +1,5 @@
 import vorpal from 'vorpal'
+import fs from 'fs'
 import net from 'net'
 
 import { hash, compare } from './hashes'
@@ -110,8 +111,23 @@ connect
 allfiles
   .description('(online only) Loads a list of all files stored on server')
 
+let uploadedFile
 upload
-  .description('(online only) Uploads a file with the path <path> to the server')
+  .description('(calls offline to prepare file for transfer, call online to upload to server) Uploads a file with the path <path> to the server')
+  .action(function (args, callback) {
+    let myPath = args.path
+    fs.readFile(myPath.resolve(__dirname, `${args.path}`), function (err, data) {
+      if (err) {
+        this.log(`You dun f***ed up, son. ${err}`)
+        callback()
+      } else {
+        this.log(data.toString())
+        uploadedFile = data
+        callback()
+      }
+      callback()
+    })
+  })
 
 download
   .description('(online only) Downloads a file from the server with fileid <id> to an optional [localpath]')

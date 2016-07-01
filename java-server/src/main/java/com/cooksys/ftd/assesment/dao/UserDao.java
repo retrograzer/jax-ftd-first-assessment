@@ -1,7 +1,6 @@
 package com.cooksys.ftd.assesment.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cooksys.ftd.assessment.model.db.User;
-import com.mysql.cj.api.jdbc.Statement;
 
 public class UserDao extends AbstractDao {
 	
