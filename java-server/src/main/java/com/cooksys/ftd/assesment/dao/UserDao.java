@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cooksys.ftd.assessment.model.db.User;
+import com.mysql.cj.api.jdbc.Statement;
 
 public class UserDao extends AbstractDao {
 	
@@ -23,17 +24,23 @@ public class UserDao extends AbstractDao {
 		try {
 			log.info("got into the userdao..." + user);
 			
-			String sql = "insert into user "
-					+ "values (" + user.getUsername() + ", " + user.getPassword() + ")";
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = null;
 			
-			ResultSet rs = stmt.executeQuery();
-
+			java.sql.Statement stmt = conn.createStatement();
+			
+			log.info("got into the userdao..." + user);
+			
+			stmt.executeUpdate("insert into user "
+					+ "values (" + user.getUsername() + ", " + user.getPassword() +")");
+			
+			rs = stmt.getGeneratedKeys();
+			log.info("got into the userdao..." + user);
+			
 			log.info("Retrieving actors...");
 			while (rs.next()) {
 				String firstName = rs.getString("username");
-				String lastName = rs.getString("password");
-				log.info("{} {}", firstName, lastName);
+				String filmTitle = rs.getString("password");
+				log.info("{} {}", filmTitle, firstName);
 			}
 
 		} catch (SQLException e) {

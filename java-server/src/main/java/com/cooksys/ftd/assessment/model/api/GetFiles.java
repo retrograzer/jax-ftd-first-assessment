@@ -1,7 +1,15 @@
 package com.cooksys.ftd.assessment.model.api;
 
-public class GetFiles {
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+public class GetFiles {
 	
+	private String name;
 	
+	public String setName (String name) {
+		this.name = name;
+		return name;
+	}
+
 }

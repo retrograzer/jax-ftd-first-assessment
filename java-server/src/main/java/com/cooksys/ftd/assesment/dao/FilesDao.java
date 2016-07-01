@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cooksys.ftd.assessment.model.db.Files;
@@ -17,7 +18,7 @@ public class FilesDao extends AbstractDao {
 		
 		try {
 			String sql = "select * "
-					+ "from user";
+					+ "from files";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			
 			ResultSet rs = stmt.executeQuery();
@@ -35,8 +36,29 @@ public class FilesDao extends AbstractDao {
 		return null;
 	}
 	
-	public <E> List<E> FileList () {
-		return null; //TODO
+	public String FileList () {
+		log.info("In FileList");
+		try {
+			log.info("In the FileDao");
+			String sql = "select * from files";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+			String complPath = "";
+			String complObj = "";
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				String filePath = rs.getString("file_path");
+				String fileObj = rs.getString("file_data");
+				log.info("{} {}", filePath, fileObj);
+				complPath = filePath;
+				complObj = fileObj;
+			}
+
+			return complPath + " " + complObj;
+		} catch (SQLException e) {
+			log.error("Something went wrong retrieving file list");
+		}
+		return "Nothingness";
 	}
 
 }
