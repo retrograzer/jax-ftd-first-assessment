@@ -15,11 +15,11 @@ import com.cooksys.ftd.assessment.model.api.UploadFile;
 import com.cooksys.ftd.assessment.model.db.Files;
 
 public class ClientHandler implements Runnable {
-	
+
 	private Logger log = LoggerFactory.getLogger(ClientHandler.class);
 	BufferedReader reader;
 	PrintWriter writer;
-	
+
 	FilesDao filesDao;
 	UserDao userDao;
 	UploadFile upload;
@@ -43,16 +43,15 @@ public class ClientHandler implements Runnable {
 					Files fly = new Files();
 					fly.setFilePath(message);
 					fly.setObjs();
-					//jaxB sets the file to the object!
-					//I should probably do that in a different class...Maybe in the Files Class
+					// jaxB sets the file to the object!
+					// I should probably do that in a different class...Maybe in
+					// the Files Class
 				} else if (message.equals("update")) {
 					writer.print("Please specify your username.");
 					writer.flush();
 					message = reader.readLine();
 					writer.print("Now please press Enter to continue...");
-					writer.flush();
 					writer.print("password");
-					writer.flush();
 					String message2 = reader.readLine();
 					CreateUser usa = new CreateUser(message, message2);
 					log.info("Did a thing in Client {} ", usa);

@@ -20,7 +20,7 @@ public class DownloadFile {
 	public String downloadFiles (String filePath) {
 			log.info("in the downloadFile thingy");
 		try {
-			PreparedStatement stmt;
+			PreparedStatement stmt; 
 			
 			String sql = "select * "
 					+ "from files ";

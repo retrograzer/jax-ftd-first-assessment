@@ -20,6 +20,7 @@ const connect = cli.mode('connect <port> [host]')
 const allfiles = cli.command('allfiles')
 const upload = cli.command('upload <path>')
 const download = cli.command('download <id> [localpath]')
+const update = cli.command('update')
 
 register
   .description('Registers a new user with <username> and <password>')
@@ -110,6 +111,10 @@ connect
 
 allfiles
   .description('(online only) Loads a list of all files stored on server')
+  .action(function (args, callback) {
+    this.log('This is an online-only command. Please connect to server to use this command.')
+    callback()
+  })
 
 let uploadedFile
 upload
@@ -131,5 +136,16 @@ upload
 
 download
   .description('(online only) Downloads a file from the server with fileid <id> to an optional [localpath]')
+  .action(function (args, callback) {
+    this.log('This is an online-only command. Please connect to server to use this command.')
+    callback()
+  })
+
+update
+  .description('(online only) updates username and password to the database')
+  .action(function (args, callback) {
+    this.log('This is an online-only command. Please connect to server to use this command.')
+    callback()
+  })
 
 export default cli
