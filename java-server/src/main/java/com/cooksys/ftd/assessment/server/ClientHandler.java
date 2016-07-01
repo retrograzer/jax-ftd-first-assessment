@@ -26,13 +26,24 @@ public class ClientHandler implements Runnable {
 			while (true) {
 				String message = reader.readLine();
 				if (message.equals("files")) {
-					writer.print("Suck it, charles.");
+					writer.print(message);
+					
 				} else if (message.equals("upload")) {
 //					writer.print("Please specify a file path: ");
 //					writer.flush();
 //					message = reader.readLine();
 //					writer.print("Uploading file...");
-					CreateUser usa = new CreateUser("hello", "killa");
+				} else if (message.equals("update")) {
+					writer.print("Please specify your username.");
+					writer.flush();
+					message = reader.readLine();
+					writer.print("Now please press Enter to continue...");
+					writer.flush();
+					writer.print("password");
+					writer.flush();
+					String message2 = reader.readLine();
+					CreateUser usa = new CreateUser(message, message2);
+					log.info("Did a thing in Client {} ", usa);
 				}
 				writer.flush();
 				log.info("Wrote message ({}) in ClientHandler", message);

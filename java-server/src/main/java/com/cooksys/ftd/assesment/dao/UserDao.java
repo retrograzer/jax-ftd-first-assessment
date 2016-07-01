@@ -6,9 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.cooksys.ftd.assessment.model.db.User;
 
 public class UserDao extends AbstractDao {
+	
+	private Logger log = LoggerFactory.getLogger(UserDao.class);
 	
 	AbstractDao abs = new AbstractDao();
 	Connection conn = abs.getConn();
@@ -16,9 +21,10 @@ public class UserDao extends AbstractDao {
 	public User createUser(User user) throws ClassNotFoundException {
 
 		try {
-
-			String sql = "select * "
-					+ "from user";
+			log.info("got into the userdao..." + user);
+			
+			String sql = "insert into user "
+					+ "values (" + user.getUsername() + ", " + user.getPassword() + ")";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			
 			ResultSet rs = stmt.executeQuery();

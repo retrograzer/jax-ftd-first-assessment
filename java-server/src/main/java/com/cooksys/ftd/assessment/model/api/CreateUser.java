@@ -12,6 +12,7 @@ public class CreateUser {
 		super();
 		this.username = username;
 		this.password = password;
+		System.out.println("In CreateUser");
 		User ppl = new User();
 		ppl.setPassword(password);
 		ppl.setUsername(username);

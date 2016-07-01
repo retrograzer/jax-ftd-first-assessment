@@ -66,6 +66,7 @@ login
     )
   })
 
+let lastCommand = ''
 connect
   .delimiter('Server -> ')
   .description('Mostly for testing connection to the server.')
@@ -76,7 +77,13 @@ connect
 
       // RECIEVES data to print to the log
       server.on('data', (data) => {
-        this.log(data.toString())
+        if (data.toString() !== 'password') {
+          this.log(data.toString())
+        } else {
+          server.write(`${userList[lastCommand]}`)
+          this.log(data.toString() + userList[lastCommand])
+          callback()
+        }
       })
 
       server.on('end', () => {
@@ -92,6 +99,7 @@ connect
     // WRITES commands to the server
     if (logged) {
       server.write(`${command}\n`)
+      lastCommand = command
       callback()
     } else {
       this.log('You are not logged in! Please disconnect and login.')
